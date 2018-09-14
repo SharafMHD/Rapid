@@ -38,3 +38,5 @@ Route::resource('customers', 'customersController');
 Route::resource('itemsCategories', 'items_categoryController');
 
 Route::resource('items', 'itemsController');
+
+Route::resource('bills', 'billsController');

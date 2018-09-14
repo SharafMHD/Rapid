@@ -170,10 +170,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
 
+    <script src="/js/custom.js"></script>
 
   
     <script>
-
     $(document).ready(function() {
     $('.DataTable').DataTable();
 });

@@ -35,7 +35,7 @@
                             </div>
                             <!-- /.tab-pane -->
                             <div class="tab-pane" id="tab_2">
-                                    <div class="box box-danger">
+                                    <div class="box box-warning">
                                             <div class="box-body">
                                                 <div class="row">
                                                         <h4 class="form-section">Add Items</h4>
@@ -66,6 +66,8 @@
         $(document).ready( function() { 
             GenerateID('code');
          } );
+
         </script>
+
 @endsection
 

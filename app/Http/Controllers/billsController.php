@@ -16,6 +16,7 @@ class billsController extends AppBaseController
 {
     /** @var  billsRepository */
     private $billsRepository;
+    private $customersRepository;
 
     public function __construct(billsRepository $billsRepo)
     {
@@ -46,6 +47,7 @@ class billsController extends AppBaseController
         $customers = customers::pluck('name','id');
         $shippers=shippers::pluck('name','id');
         return view('bills.create')->with('shippers' , $shippers)->with('customers', $customers);
+        
     }
 
     /**
@@ -86,6 +88,24 @@ class billsController extends AppBaseController
         return view('bills.show')->with('bills', $bills);
     }
 
+      /**
+     * Display the specified customer.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function showCustomer($id)
+    {
+      
+        $customers = customers::findorfail($id)->toarray();
+        
+        if (empty($customers)) {
+            Flash::error('Customers not found');
+        }
+        return Response::json($customers);
+      
+    }
     /**
      * Show the form for editing the specified bills.
      *

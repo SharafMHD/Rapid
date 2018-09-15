@@ -40,3 +40,5 @@ Route::resource('itemsCategories', 'items_categoryController');
 Route::resource('items', 'itemsController');
 
 Route::resource('bills', 'billsController');
+
+Route::get('/bills/showCustomer/{id}', 'billsController@showCustomer');

@@ -390,5 +390,45 @@ function Checkifexsist(code) {
         }
 
     });
-    
+
+ 
+   
 }
+
+    ///start rapid functions
+function GetRecpient() {
+    // Get the checkbox
+    var checkBox = document.getElementById("isrecipient");
+    // If the checkbox is checked, display the output text
+    if (checkBox.checked == true){
+      $.ajaxSetup({
+          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+      var id =$('#customer_id').val();
+      $.ajax({
+           type:"GET",
+           url:"/bills/showCustomer/" + id,
+           success : function(result) {
+             
+              $('#recipient').val(result.name);
+              $('#recipient_phone').val(result.phone);
+              $('#Recipient_address').val(result.address);
+              // disable fildes 
+              $('#recipient').prop("disabled", true);
+              $('#recipient_phone').prop("disabled", true);
+              $('#Recipient_address').prop("disabled", true);
+  
+           }
+      }); 
+    } else {
+      $('#recipient').val('');
+              $('#recipient_phone').val('');
+              $('#Recipient_address').val('');
+              // disable fildes 
+              $('#recipient').prop("disabled", false);
+          $('#recipient_phone').prop("disabled", false);
+              $('#Recipient_address').prop("disabled", false);
+  
+    }
+  }
+      
+///

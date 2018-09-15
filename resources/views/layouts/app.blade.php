@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/css/AdminLTE.min.css">
 
   <!-- Select2 -->
-  <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="/assets/global/plugins/select2/css/select2-bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/css/skins/_all-skins.min.css">
 
     <!-- iCheck -->
@@ -160,7 +160,7 @@
     <!-- jQuery 3.1.1 -->
     <script src="/js/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/bower_components/select2/dist/js/select2.full.min.js"></script>
+    <script src="/assets/global/plugins/select2/js/select2.full.min.js"></script>
     <script src="/assets/global/scripts/datatable.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
         <script src="/assets/global/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>

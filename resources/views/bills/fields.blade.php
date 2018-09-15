@@ -32,7 +32,7 @@
     <!-- Isrecipient Field -->
 <div class="form-group col-sm-2">
         {!! Form::label('isrecipient', 'Is Recipient:') !!}
-        {!! Form::checkbox('isrecipient', null, ['class' => 'form-control ']) !!}
+        {!! Form::checkbox('isrecipient', null, ['class' => 'form-control '],['onClick' => 'GetRecpient();']) !!}
     </div>
     <!-- RecipientName Field -->
 <div class="form-group col-sm-2">
@@ -46,8 +46,8 @@
 </div>
 <!-- Recipient_address Field -->
 <div class="form-group col-sm-6">
-        {!! Form::label('recipient_phone', 'Recipient Address:') !!}
-        {!! Form::text('recipient_phone', null, ['class' => 'form-control']) !!}
+        {!! Form::label('Recipient_address', 'Recipient Address:') !!}
+        {!! Form::text('Recipient_address', null, ['class' => 'form-control']) !!}
     </div>
     <!-- Pikup Field -->
 <div class="form-group col-sm-6">

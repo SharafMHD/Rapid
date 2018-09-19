@@ -4,6 +4,9 @@ var ControllerID = "";
 var FormID = "";
 var TblID = "";
 var invoiceDetails = [];
+var subtotal=0;
+var total=0;
+var user_id = 0;
 //==================== Navigation ====================
 //<li><a href="#" onclick="goto('/Students/Index')"><i class="fa fa-circle-o"></i>قبول الطلاب </a></li>
 //     <section id="Mydiv" class="content">
@@ -453,16 +456,29 @@ function AddNewItem(data) {
     html += '<td>' + NewItem.unit_price + '</td>';
     html += '<td>' + NewItem.total_price + '</td>';
     html += '<td>' + NewItem.remark + '</td>';
-    html += '<td>' + '<a class="btn btn-xs btn-danger" onclick="Delete('  + invoiceDetails.indexOf(NewItem) + ',' + "'tbl_invoiceDetails'" + ');">' + '<i class="fa fa-times"></i>' + ' Delete' + '</a>' +'</td>';
+    html += '<td>' + '<a class="btn btn-xs btn-danger" onclick="Delete('  + invoiceDetails.indexOf(NewItem) + ',' + "'tbl_invoiceDetails'" +','+ NewItem.total_price+');">' + '<i class="fa fa-times"></i>' + ' Delete' + '</a>' +'</td>';
     html += '</tr>';
     // $("#tbl_invoiceDetails tbody").empty();
     $("#tbl_invoiceDetails tbody").append(html);
+    //calc subtotal
+    subtotal = subtotal + parseFloat(NewItem.total_price) ;
+    $("#lblsubtotal").text(subtotal);
+     total = total + parseFloat(NewItem.total_price);
+        $("#lbltotal").text(subtotal);
 }
 // To Delete from Html table
-function Delete(item,Tbl_Name) {
+function Delete(item,Tbl_Name,total) {
   var  row = $(this).parent().index();
   document.getElementById(Tbl_Name).deleteRow(row);
+
+  console.log(total);
+
   invoiceDetails.splice(item,1);
+    //  calc subtotal
+      subtotal = subtotal - parseFloat(total) ;
+      $("#lblsubtotal").text(subtotal);
+       total = total - parseFloat(total);
+          $("#lbltotal").text(subtotal);
   save_msg("Item has been Removed successfully");
 }
     //Get Item
@@ -478,4 +494,42 @@ function Delete(item,Tbl_Name) {
                }
           }); 
       }
-///
+///save bill 
+function save_bill() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: '/bills/savebill',
+        type: 'POST',
+        // beforeSend: function (xhr) {
+        //     var token = $('meta[name="csrf_token"]').attr('content');
+
+        //     if (token) {
+        //           return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+        //     }
+        // },
+        data: {
+            bill_date : $("#billdate").val(),
+            amount:$("#lbltotal").text(),
+        payed:0,
+        remainig:$("#lbltotal").text(),
+        code:$("#code").val(),
+        customer_id:$("#customer_id").val(),
+        shipper_id:$("#shipper_id").val(),
+        status : "Pending",
+        discount : 0,
+            _token:$('meta[name="csrf-token"]').attr('content')
+
+        }, 
+        success: function (result) {
+            save_msg("The Invoice has been successfully generated with Ref:" + result.code);
+            
+        },
+        error: function (result) {
+           error_msg();
+        }
+    });  
+}

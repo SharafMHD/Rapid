@@ -43,3 +43,4 @@ Route::resource('bills', 'billsController');
 
 Route::get('/bills/showCustomer/{id}', 'billsController@showCustomer');
 Route::get('/bills/getitem/{id}', 'billsController@getitem');
+Route::post('/bills/savebill', 'billsController@savebill');

@@ -16,9 +16,9 @@
         <tr>
             <td>{!! $bills->billdate !!}</td>
             <td>{!! $bills->code !!}</td>
-            <td>{!! $bills->customer_id !!}</td>
-            <td>{!! $bills->shipper_id !!}</td>
-            <td>{!! $bills->user_id !!}</td>
+            <td>{!! $bills->customers->name !!}</td>
+            <td>{!! $bills->shippers->name !!}</td>
+            <td>{!! $bills->user->name !!}</td>
             <td>{!! $bills->status !!}</td>
             <td>{!! $bills->discount !!}</td>
             <td width="8%">

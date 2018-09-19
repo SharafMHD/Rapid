@@ -14,6 +14,9 @@ use App\Models\shippers;
 use App\Models\customers;
 use App\Models\items;
 use App\Models\units;
+use App\Models\bills;
+use Auth;
+
 class billsController extends AppBaseController
 {
     /** @var  billsRepository */
@@ -53,6 +56,44 @@ class billsController extends AppBaseController
         
     }
 
+
+    /**
+     * Store a newly created bills in storage.
+     *
+     * @param CreatebillsRequest $request
+     *
+     * @return Response
+     */
+    public function savebill(Request $request)
+    {
+        if($request->ajax())
+        {
+         
+            $bill = new bills;
+          $bill->bill_date = $request->bill_date;
+          $bill->amount = $request->amount;
+          $bill->payed = $request->payed;
+          $bill->remainig = $request->remainig;
+          $bill->code = $request->code;
+          $bill->customer_id = $request->customer_id;
+          $bill->shipper_id = $request->shipper_id;
+          $bill->status = $request->status;
+          $bill->discount = $request->discount;
+          $bill->user_id = Auth::id();
+          $bill->save();
+          
+          if($bill->save()){
+          return response()->json([
+              'id'     => $bill->id]);
+      } else {
+          return response()->json([
+              'status' => 'error']);
+      }
+        }
+    
+     
+    }
+
     /**
      * Store a newly created bills in storage.
      *
@@ -62,16 +103,23 @@ class billsController extends AppBaseController
      */
     public function store(CreatebillsRequest $request)
     {
+        
         $input = $request->all();
 
         $bills = $this->billsRepository->create($input);
 
-        Flash::success('Bills saved successfully.');
+        // Flash::success('Bills saved successfully.');
 
-        return redirect(route('bills.index'));
+        // return redirect(route('bills.index'));
+        if ($bills) {
+            return response()->json([
+                'id'     => $id]);
+        } else {
+            return response()->json([
+                'status' => 'error']);
+        }
     }
-
-    /**
+  /**
      * Display the specified bills.
      *
      * @param  int $id

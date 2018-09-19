@@ -3,6 +3,8 @@
 @section('content')
     <section class="content-header">
         <h1>
+                <meta name="csrf-token" content="{{ csrf_token() }}">
+
             Bills
         </h1>
     </section>
@@ -43,7 +45,8 @@
                                                         @include('bills.detailsfildes')
                    <!-- Submit Field -->
 <div class="form-group col-sm-12">
-        {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+        
+        <a  class="btn btn-primary" onclick="save_bill();">Save</a>
         <a href="{!! route('bills.index') !!}" class="btn btn-default">Cancel</a>
     </div>
 </div>

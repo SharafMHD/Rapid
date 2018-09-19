@@ -21,6 +21,8 @@
                     
                     </div>
                       </div>
+                      <h4 class="form-section">Invoice Details</h4>
+                                                        <hr/>
                       <!-- tems Table Field -->
                      <!-- Submit Field -->
 <div class="form-group col-sm-12">
@@ -39,4 +41,27 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-xs-9">
+
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-xs-3">
+                              <div class="table-responsive">
+                                <table class="table">
+                                  <tbody><tr>
+                                    <th style="width:50%">Subtotal:</th>
+                                    <td id=lblsubtotal>0</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Total:</th>
+                                    <td id="lbltotal">0</td>
+                                  </tr>
+                                </tbody></table>
+                              </div>
+                            </div>
+                            <!-- /.col -->
+                          </div>
 

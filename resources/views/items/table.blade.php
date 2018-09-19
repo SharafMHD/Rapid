@@ -6,6 +6,7 @@
         <th>Unit Id</th>
         <th>Size</th>
         <th>Code</th>
+        <th>unit Price</th>
         <th>Type</th>
         <th>Description</th>
             <th colspan="1">Action</th>
@@ -19,6 +20,7 @@
             <td>{!! $items->units->name !!}</td>
             <td>{!! $items->size !!}</td>
             <td>{!! $items->code !!}</td>
+            <td>{!! $items->unit_price !!}</td>
             <td>{!! $items->type !!}</td>
             <td>{!! $items->description !!}</td>
             <td width="8%">

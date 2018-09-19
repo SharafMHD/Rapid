@@ -27,7 +27,11 @@
     {!! Form::label('code', 'Code:') !!}
     {!! Form::text('code', null, ['class' => 'form-control']) !!}
 </div>
-
+<!-- Code Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('unit_price', 'Unit Price :') !!}
+    {!! Form::text('unit_price', null, ['class' => 'form-control']) !!}
+</div>
 <!-- Type Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('type', 'Type:') !!}

@@ -38,7 +38,8 @@ class items extends Model
         'size',
         'code',
         'type',
-        'description'
+        'description',
+        'unit_price'
     ];
 
     /**
@@ -53,7 +54,8 @@ class items extends Model
         'size' => 'string',
         'code' => 'string',
         'type' => 'string',
-        'description' => 'string'
+        'description' => 'string',
+        'unit_price' => 'float'
     ];
 
     /**
@@ -67,7 +69,8 @@ class items extends Model
         'unit_id' => 'required',
         'size' => 'required',
         'code' => 'required',
-        'type' => 'required'
+        'type' => 'required',
+        'unit_price' => 'required'
     ];
 
     /**

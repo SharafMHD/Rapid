@@ -40,6 +40,7 @@
                                                 <div class="row">
                                                         <h4 class="form-section">Add Items</h4>
                                                         <hr/>
+                                                        @include('bills.detailsfildes')
                    <!-- Submit Field -->
 <div class="form-group col-sm-12">
         {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

@@ -12,6 +12,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 use App\Models\shippers;
 use App\Models\customers;
+use App\Models\items;
+use App\Models\units;
 class billsController extends AppBaseController
 {
     /** @var  billsRepository */
@@ -46,7 +48,8 @@ class billsController extends AppBaseController
     {
         $customers = customers::pluck('name','id');
         $shippers=shippers::pluck('name','id');
-        return view('bills.create')->with('shippers' , $shippers)->with('customers', $customers);
+        $items=items::pluck('name','id');
+        return view('bills.create')->with('shippers' , $shippers)->with('customers', $customers)->with('items',$items);
         
     }
 
@@ -104,6 +107,24 @@ class billsController extends AppBaseController
             Flash::error('Customers not found');
         }
         return Response::json($customers);
+      
+    }
+         /**
+     * Display the specified Item.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function getitem($id)
+    {
+      
+        $item = items::with('units')->findorfail($id);
+        $units= units::findorfail($item->unit_id);
+        if (empty($item)) {
+            Flash::error('Item not found');
+        }
+        return Response::json($item);
       
     }
     /**

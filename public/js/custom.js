@@ -3,6 +3,7 @@ var RecordID = 0;
 var ControllerID = "";
 var FormID = "";
 var TblID = "";
+var invoiceDetails = [];
 //==================== Navigation ====================
 //<li><a href="#" onclick="goto('/Students/Index')"><i class="fa fa-circle-o"></i>قبول الطلاب </a></li>
 //     <section id="Mydiv" class="content">
@@ -299,17 +300,17 @@ function error_msg() {
         button: "Try agen!"
     });
 }
-function save_msg() {
+function save_msg(msgbody) {
     swal({
         title: "Well Done!",
-        text: "Record has been saved successfully",
+        text: msgbody,
         type: "success"
     });
 }
-function edit_msg() {
+function edit_msg(msgbody) {
     swal({
         title: "Well Done!",
-        text: "Record has been Updated successfully",
+        text: msgbody,
         type: "success"
     });
 }
@@ -430,5 +431,51 @@ function GetRecpient() {
   
     }
   }
-      
+     
+  /// Add invoice Details 
+function AddNewItem(data) {
+    var NewItem = {
+        unit_id: data.unit_id,
+        unit_name: data.units.name,
+        item_id: data.id,
+        item_name: $('#item_id').text(),
+        unit_price:data.unit_price,
+        total_price: parseFloat(data.unit_price) * parseFloat($('#qty').val()),
+        remark:$('#remark').val(),
+        qty:$('#qty').val(),
+    };
+    invoiceDetails.push(NewItem);
+    var html = '';
+    html += '<tr>';
+    html += '<td>' + NewItem.item_name + '</td>';
+    html += '<td>' + NewItem.unit_name + '</td>';
+    html += '<td>' + NewItem.qty + '</td>';
+    html += '<td>' + NewItem.unit_price + '</td>';
+    html += '<td>' + NewItem.total_price + '</td>';
+    html += '<td>' + NewItem.remark + '</td>';
+    html += '<td>' + '<a class="btn btn-xs btn-danger" onclick="Delete('  + invoiceDetails.indexOf(NewItem) + ',' + "'tbl_invoiceDetails'" + ');">' + '<i class="fa fa-times"></i>' + ' Delete' + '</a>' +'</td>';
+    html += '</tr>';
+    // $("#tbl_invoiceDetails tbody").empty();
+    $("#tbl_invoiceDetails tbody").append(html);
+}
+// To Delete from Html table
+function Delete(item,Tbl_Name) {
+  var  row = $(this).parent().index();
+  document.getElementById(Tbl_Name).deleteRow(row);
+  invoiceDetails.splice(item,1);
+  save_msg("Item has been Removed successfully");
+}
+    //Get Item
+    function getitem() {
+          $.ajaxSetup({
+              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+          var id =$('#item_id').val();
+          $.ajax({
+               type:"GET",
+               url:"/bills/getitem/" + id,
+               success : function(result) {
+                AddNewItem(result);
+               }
+          }); 
+      }
 ///

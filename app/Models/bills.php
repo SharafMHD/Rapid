@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\custmers;
+use App\Models\customers;
+use App\Models\users;
 
 /**
  * Class bills
@@ -82,13 +83,13 @@ class bills extends Model
      **/
     public function users()
     {
-        return $this->belongsTo(\App\Models\users::class, 'user_id', 'id');
+        return $this->belongsTo(\App\User::class, 'user_id', 'id');
     }
         /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
     public function customers()
     {
-        return $this->belongsTo(\App\Models\custmers::class, 'customer_id', 'id');
+        return $this->belongsTo(\App\Models\customers::class, 'customer_id', 'id');
     }
 }

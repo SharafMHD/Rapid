@@ -27,7 +27,7 @@
 
                                             <div class="box-body">
                                                 <div class="row">
-                                                    {!! Form::open(['route' => 'bills.store']) !!}
+                                                    {!! Form::open(['route' => 'bills.store' , 'id' => 'frmadd']) !!}
                                                         @include('bills.fields')
                                 
                                                     {!! Form::close() !!}

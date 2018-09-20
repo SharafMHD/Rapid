@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\CreatebillsRequest;
 use App\Http\Requests\UpdatebillsRequest;
-use App\Repositories\billsRepository;
-use App\Http\Controllers\AppBaseController;
-use Illuminate\Http\Request;
-use Flash;
-use Prettus\Repository\Criteria\RequestCriteria;
-use Response;
-use App\Models\shippers;
+use App\Models\billdetails;
+use App\Models\bills;
 use App\Models\customers;
 use App\Models\items;
+use App\Models\shippers;
 use App\Models\units;
-use App\Models\bills;
+use App\Repositories\billsRepository;
 use Auth;
+use Flash;
+use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
+use Response;
 
 class billsController extends AppBaseController
 {
@@ -49,13 +50,12 @@ class billsController extends AppBaseController
      */
     public function create()
     {
-        $customers = customers::pluck('name','id');
-        $shippers=shippers::pluck('name','id');
-        $items=items::pluck('name','id');
-        return view('bills.create')->with('shippers' , $shippers)->with('customers', $customers)->with('items',$items);
-        
-    }
+        $customers = customers::pluck('name', 'id');
+        $shippers = shippers::pluck('name', 'id');
+        $items = items::pluck('name', 'id');
+        return view('bills.create')->with('shippers', $shippers)->with('customers', $customers)->with('items', $items);
 
+    }
 
     /**
      * Store a newly created bills in storage.
@@ -66,34 +66,64 @@ class billsController extends AppBaseController
      */
     public function savebill(Request $request)
     {
-        if($request->ajax())
-        {
-         
+        if ($request->ajax()) {
             $bill = new bills;
-          $bill->bill_date = $request->bill_date;
-          $bill->amount = $request->amount;
-          $bill->payed = $request->payed;
-          $bill->remainig = $request->remainig;
-          $bill->code = $request->code;
-          $bill->customer_id = $request->customer_id;
-          $bill->shipper_id = $request->shipper_id;
-          $bill->status = $request->status;
-          $bill->discount = $request->discount;
-          $bill->user_id = Auth::id();
-          $bill->save();
-          
-          if($bill->save()){
-          return response()->json([
-              'id'     => $bill->id]);
-      } else {
-          return response()->json([
-              'status' => 'error']);
-      }
+            $bill->bill_date = $request->bill_date;
+            $bill->amount = $request->amount;
+            $bill->payed = $request->payed;
+            $bill->remainig = $request->remainig;
+            $bill->code = $request->code;
+            $bill->customer_id = $request->customer_id;
+            $bill->shipper_id = $request->shipper_id;
+            $bill->status = $request->status;
+            $bill->discount = $request->discount;
+            $bill->user_id = Auth::id();
+            $bill->save();
+            if ($bill->save()) {
+                return response()->json([
+                    'id' => $bill->id,
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error']);
+            }
         }
-    
-     
-    }
 
+    }
+    /**
+     * Store a newly created bills in storage.
+     *
+     * @param CreatebillsRequest $request
+     *
+     * @return Response
+     */
+    public function save_billdetails(Request $request)
+    {
+        if ($request->ajax()) {
+            $bill_details = new billdetails;
+         
+            foreach ($request->invoiceDetails as $data) {
+                try {
+                    $charges[] = [
+                        'bill_id' =>  $request->billid,
+                        'item_id' => $data['item_id'],
+                        'unit_id' => $data['unit_id'],
+                        'unit_price' => $data['unit_price'],
+                        'total_price' => $data['total_price'],
+                        'qty' => $data['qty'],
+                        'remark' => $data['remark']
+                    ];
+                  
+                } catch (QueryException $ex) {
+                   return response()->json([
+                        'status' =>  $ex]);
+                }
+            }
+            billdetails::insert($charges);
+
+        }
+
+    }
     /**
      * Store a newly created bills in storage.
      *
@@ -103,7 +133,7 @@ class billsController extends AppBaseController
      */
     public function store(CreatebillsRequest $request)
     {
-        
+
         $input = $request->all();
 
         $bills = $this->billsRepository->create($input);
@@ -113,13 +143,13 @@ class billsController extends AppBaseController
         // return redirect(route('bills.index'));
         if ($bills) {
             return response()->json([
-                'id'     => $id]);
+                'id' => $id]);
         } else {
             return response()->json([
                 'status' => 'error']);
         }
     }
-  /**
+    /**
      * Display the specified bills.
      *
      * @param  int $id
@@ -139,7 +169,7 @@ class billsController extends AppBaseController
         return view('bills.show')->with('bills', $bills);
     }
 
-      /**
+    /**
      * Display the specified customer.
      *
      * @param  int $id
@@ -148,16 +178,16 @@ class billsController extends AppBaseController
      */
     public function showCustomer($id)
     {
-      
+
         $customers = customers::findorfail($id)->toarray();
-        
+
         if (empty($customers)) {
             Flash::error('Customers not found');
         }
         return Response::json($customers);
-      
+
     }
-         /**
+    /**
      * Display the specified Item.
      *
      * @param  int $id
@@ -166,14 +196,14 @@ class billsController extends AppBaseController
      */
     public function getitem($id)
     {
-      
+
         $item = items::with('units')->findorfail($id);
-        $units= units::findorfail($item->unit_id);
+        $units = units::findorfail($item->unit_id);
         if (empty($item)) {
             Flash::error('Item not found');
         }
         return Response::json($item);
-      
+
     }
     /**
      * Show the form for editing the specified bills.

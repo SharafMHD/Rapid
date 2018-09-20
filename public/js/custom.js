@@ -4,8 +4,8 @@ var ControllerID = "";
 var FormID = "";
 var TblID = "";
 var invoiceDetails = [];
-var subtotal=0;
-var total=0;
+var subtotal = 0;
+var total = 0;
 var user_id = 0;
 //==================== Navigation ====================
 //<li><a href="#" onclick="goto('/Students/Index')"><i class="fa fa-circle-o"></i>قبول الطلاب </a></li>
@@ -38,10 +38,10 @@ function Edit(Controller, Form_id, multi_selected, tbl_Name, RecordID) {
     var url = '/' + Controller + '/Edit/' + RecordID;
     if (multi_selected != 0) {
         post_ajax_multi_selected(url, Form_id, multi_selected, tbl_Name);
-      //  post_ajax(url, Form_id, tbl_Name, Controller, 'Edit', RecordID);
+        //  post_ajax(url, Form_id, tbl_Name, Controller, 'Edit', RecordID);
     }
     else {
-        post_ajax(url, Form_id, tbl_Name, Controller , 'Edit', RecordID);
+        post_ajax(url, Form_id, tbl_Name, Controller, 'Edit', RecordID);
     }
 }
 ////function for deleting 's record  
@@ -56,28 +56,28 @@ function Delete(Controller, id, tbl_Name) {
         confirmButtonText: "Yes, delete it!",
         cancelButtonText: "No, cancel plx!"
     }).then(function (result) {
-            if (result) {
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    contentType: "application/json;charset=UTF-8",
-                    dataType: "json",
-                    success: function (result) {
-                      //  alert(Controller, TblID);
-                        GetAll(Controller, TblID);
-                        swal({
-                            title: "Well Done!",
-                            text: "Record has been Deleted successfully",
-                            type: "success"
-                        });
-                    },
-                    error: function (errormessage) {
-                        error_msg();
-                    }
-                });
+        if (result) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    //  alert(Controller, TblID);
+                    GetAll(Controller, TblID);
+                    swal({
+                        title: "Well Done!",
+                        text: "Record has been Deleted successfully",
+                        type: "success"
+                    });
+                },
+                error: function (errormessage) {
+                    error_msg();
+                }
+            });
 
-            }
-        },
+        }
+    },
         function (dismiss) {
             if (dismiss === 'cancel') {
                 swal(
@@ -87,15 +87,15 @@ function Delete(Controller, id, tbl_Name) {
             }
         });
 }
-function GetAll(Controller, TblName , FormName ) {
-   
+function GetAll(Controller, TblName, FormName) {
+
 
     loadData(Controller, TblName, FormName);
 }
 function GetbyId(id, Controller, FormName) {
 
     var url = '/' + Controller + '/GetbyID/';
-  
+
     getRecordById(id, url, FormName);
 }
 //------------------------------------------------------------
@@ -115,7 +115,7 @@ function post_ajax_multi_selected(url, formid, Multi_selected_id, tbl_Name, cont
                 error_msg();
             } else {
                 alert(controlerName);
-               // GetAll(controlerName, tbl_Name);
+                // GetAll(controlerName, tbl_Name);
                 save_msg();
                 resetForm(formid);
             }
@@ -127,7 +127,7 @@ function post_ajax_multi_selected(url, formid, Multi_selected_id, tbl_Name, cont
 
     //return result;
 }
-function post_ajax(url, formid, tbl_Name, Controller , Method , id) {
+function post_ajax(url, formid, tbl_Name, Controller, Method, id) {
     var result = '';
     $.ajax({
 
@@ -135,14 +135,14 @@ function post_ajax(url, formid, tbl_Name, Controller , Method , id) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         url: url,
-        data: formtojson(formid , Method , id),
+        data: formtojson(formid, Method, id),
         success: function (response) {
 
             if (response.status === 0) {
                 error_msg();
             } else {
-                
-                GetAll(Controller, tbl_Name );
+
+                GetAll(Controller, tbl_Name);
                 if (Method !== "Edit") {
                     save_msg();
                 } else {
@@ -151,8 +151,8 @@ function post_ajax(url, formid, tbl_Name, Controller , Method , id) {
                     $('#btnAdd').show();
                     $('#btnUpdate').hide();
                 }
-            
-              resetForm(formid);
+
+                resetForm(formid);
             }
         },
         error: function (response) {
@@ -162,7 +162,7 @@ function post_ajax(url, formid, tbl_Name, Controller , Method , id) {
     });
     //return result;
 }
-function loadData( Controller , tblname) {
+function loadData(Controller, tblname) {
     $.ajax({
         url: '/' + Controller + '/List',
         //url: "/Areas/List",
@@ -174,7 +174,7 @@ function loadData( Controller , tblname) {
             $.each(result, function (key, item) {
                 html += '<tr>';
                 for (i in item) {
-                        html += '<td>' + item[i] + '</td>';
+                    html += '<td>' + item[i] + '</td>';
                 }
                 html += '<td>' +
                     '<div class="btn-group btn-sm">' + '<button class="btn btn-xs red dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">' + 'Actions' + '<i class="fa fa-angle-down">' + '</i>' + '</button>' + '<ul class="dropdown-menu pull-left" role="menu">' + '<li>' + '<a onclick="GetbyId(' + item.id + ' , ' + ControllerID + ' , ' + FormID + ');">' + '<i class="fa fa-pencil-square-o"></i>' + ' Edit' + '</a>' +
@@ -217,9 +217,9 @@ function getRecordById(id, url, formid) {
         success: function (result) {
             process_response(formid, result);
             $('#btnUpdate').show();
-           // $('#btnUpdate').att
+            // $('#btnUpdate').att
             RecordID = result.id;
-            
+
             $('#btnAdd').hide();
         },
         error: function (errormessage) {
@@ -230,7 +230,7 @@ function getRecordById(id, url, formid) {
 }
 //------------------------------------------------------------
 //================= Form OPritions ===========================
-function formtojson(formid , method, id) {
+function formtojson(formid, method, id) {
     var form = document.getElementById(formid);
     var obj = {};
     var elements = form.querySelectorAll("input, select, textarea, radio");
@@ -246,10 +246,10 @@ function formtojson(formid , method, id) {
             obj['id'] = id;
         }
     }
-   
+
     //alert(JSON.stringify(obj));
     return JSON.stringify(obj);
- 
+
 
 }
 function formtojson_MS(formid, multi_selected_id) {
@@ -276,9 +276,8 @@ function formtojson_MS(formid, multi_selected_id) {
 
 }
 function resetForm(formid) {
+    
     $("#" + formid).trigger("reset");
-    $('#btnAdd').show();
-    $('#btnUpdate').hide();
 };
 // This to populate ajaxresponse to form dynamicly 
 function process_response(frmormid, data) {
@@ -290,7 +289,6 @@ function process_response(frmormid, data) {
             $(frm.elements[i]).val(data[i]).trigger('change');
         }
     }
-    $('#static').modal('show');
 }
 // This to populate ajaxresponse to form dynamicly 
 //------------------------------------------------------------
@@ -342,7 +340,7 @@ function delete_confirmation() {
 }
 //------------------------------------------------------------
 //================= Binding DropDownlists ===========================
-function DDLBind(DDl_name, Controller , FunctionName) {
+function DDLBind(DDl_name, Controller, FunctionName) {
     var url = '/' + Controller + '/' + FunctionName;
     $.ajax({
         url: url,
@@ -352,7 +350,7 @@ function DDLBind(DDl_name, Controller , FunctionName) {
             $("#" + DDl_name).append(defaultOpt);
             for (var i = 0; i < data.length; i++) {
                 var opt = new Option(data[i].Text, data[i].Value);
-               $("#" + DDl_name).append(opt);
+                $("#" + DDl_name).append(opt);
             }
         }
     });
@@ -380,7 +378,7 @@ function Checkifexsist(code) {
             if (result.NotExist === true) {
                 return code;
             }
-           
+
         },
 
         error: function (errormessage) {
@@ -395,57 +393,57 @@ function Checkifexsist(code) {
 
     });
 
- 
-   
+
+
 }
 
-    ///start rapid functions
+///start rapid functions
 function GetRecpient() {
     // Get the checkbox
     var checkBox = document.getElementById("isrecipient");
     // If the checkbox is checked, display the output text
-    if (checkBox.checked == true){
-      $.ajaxSetup({
-          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-      var id =$('#customer_id').val();
-      $.ajax({
-           type:"GET",
-           url:"/bills/showCustomer/" + id,
-           success : function(result) {
-             
-              $('#recipient').val(result.name);
-              $('#recipient_phone').val(result.phone);
-              $('#Recipient_address').val(result.address);
-              // disable fildes 
-              $('#recipient').prop("disabled", true);
-              $('#recipient_phone').prop("disabled", true);
-              $('#Recipient_address').prop("disabled", true);
-  
-           }
-      }); 
+    if (checkBox.checked == true) {
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+        });
+        var id = $('#customer_id').val();
+        $.ajax({
+            type: "GET",
+            url: "/bills/showCustomer/" + id,
+            success: function (result) {
+
+                $('#recipient').val(result.name);
+                $('#recipient_phone').val(result.phone);
+                $('#Recipient_address').val(result.address);
+                // disable fildes 
+                $('#recipient').prop("disabled", true);
+                $('#recipient_phone').prop("disabled", true);
+                $('#Recipient_address').prop("disabled", true);
+
+            }
+        });
     } else {
-      $('#recipient').val('');
-              $('#recipient_phone').val('');
-              $('#Recipient_address').val('');
-              // disable fildes 
-              $('#recipient').prop("disabled", false);
-          $('#recipient_phone').prop("disabled", false);
-              $('#Recipient_address').prop("disabled", false);
-  
+        $('#recipient').val('');
+        $('#recipient_phone').val('');
+        $('#Recipient_address').val('');
+        // disable fildes 
+        $('#recipient').prop("disabled", false);
+        $('#recipient_phone').prop("disabled", false);
+        $('#Recipient_address').prop("disabled", false);
+
     }
-  }
-     
-  /// Add invoice Details 
+}
+/// Add invoice Details 
 function AddNewItem(data) {
     var NewItem = {
         unit_id: data.unit_id,
         unit_name: data.units.name,
         item_id: data.id,
         item_name: $('#item_id').text(),
-        unit_price:data.unit_price,
+        unit_price: data.unit_price,
         total_price: parseFloat(data.unit_price) * parseFloat($('#qty').val()),
-        remark:$('#remark').val(),
-        qty:$('#qty').val(),
+        remark: $('#remark').val(),
+        qty: $('#qty').val(),
     };
     invoiceDetails.push(NewItem);
     var html = '';
@@ -456,80 +454,92 @@ function AddNewItem(data) {
     html += '<td>' + NewItem.unit_price + '</td>';
     html += '<td>' + NewItem.total_price + '</td>';
     html += '<td>' + NewItem.remark + '</td>';
-    html += '<td>' + '<a class="btn btn-xs btn-danger" onclick="Delete('  + invoiceDetails.indexOf(NewItem) + ',' + "'tbl_invoiceDetails'" +','+ NewItem.total_price+');">' + '<i class="fa fa-times"></i>' + ' Delete' + '</a>' +'</td>';
+    html += '<td>' + '<a class="btn btn-xs btn-danger" onclick="Delete(' + invoiceDetails.indexOf(NewItem) + ',' + "'tbl_invoiceDetails'" + ',' + NewItem.total_price + ');">' + '<i class="fa fa-times"></i>' + ' Delete' + '</a>' + '</td>';
     html += '</tr>';
     // $("#tbl_invoiceDetails tbody").empty();
     $("#tbl_invoiceDetails tbody").append(html);
     //calc subtotal
-    subtotal = subtotal + parseFloat(NewItem.total_price) ;
+    subtotal = subtotal + parseFloat(NewItem.total_price);
     $("#lblsubtotal").text(subtotal);
-     total = total + parseFloat(NewItem.total_price);
-        $("#lbltotal").text(subtotal);
+    total = total + parseFloat(NewItem.total_price);
+    $("#lbltotal").text(subtotal);
 }
 // To Delete from Html table
-function Delete(item,Tbl_Name,total) {
-  var  row = $(this).parent().index();
-  document.getElementById(Tbl_Name).deleteRow(row);
+function Delete(item, Tbl_Name, total) {
+    var row = $(this).parent().index();
+    document.getElementById(Tbl_Name).deleteRow(row);
 
-  console.log(total);
+    console.log(total);
 
-  invoiceDetails.splice(item,1);
+    invoiceDetails.splice(item, 1);
     //  calc subtotal
-      subtotal = subtotal - parseFloat(total) ;
-      $("#lblsubtotal").text(subtotal);
-       total = total - parseFloat(total);
-          $("#lbltotal").text(subtotal);
-  save_msg("Item has been Removed successfully");
+    subtotal = subtotal - parseFloat(total);
+    $("#lblsubtotal").text(subtotal);
+    total = total - parseFloat(total);
+    $("#lbltotal").text(subtotal);
+    save_msg("Item has been Removed successfully");
 }
-    //Get Item
-    function getitem() {
-          $.ajaxSetup({
-              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-          var id =$('#item_id').val();
-          $.ajax({
-               type:"GET",
-               url:"/bills/getitem/" + id,
-               success : function(result) {
-                AddNewItem(result);
-               }
-          }); 
-      }
+//Get Item
+function getitem() {
+    $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+    });
+    var id = $('#item_id').val();
+    $.ajax({
+        type: "GET",
+        url: "/bills/getitem/" + id,
+        success: function (result) {
+            AddNewItem(result);
+        }
+    });
+}
 ///save bill 
 function save_bill() {
     $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
     $.ajax({
         url: '/bills/savebill',
         type: 'POST',
-        // beforeSend: function (xhr) {
-        //     var token = $('meta[name="csrf_token"]').attr('content');
-
-        //     if (token) {
-        //           return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-        //     }
-        // },
         data: {
-            bill_date : $("#billdate").val(),
-            amount:$("#lbltotal").text(),
-        payed:0,
-        remainig:$("#lbltotal").text(),
-        code:$("#code").val(),
-        customer_id:$("#customer_id").val(),
-        shipper_id:$("#shipper_id").val(),
-        status : "Pending",
-        discount : 0,
-            _token:$('meta[name="csrf-token"]').attr('content')
-
-        }, 
-        success: function (result) {
-            save_msg("The Invoice has been successfully generated with Ref:" + result.code);
-            
+            bill_date: $("#billdate").val(),
+            amount: $("#lbltotal").text(),
+            payed: 0,
+            remainig: $("#lbltotal").text(),
+            code: $("#code").val(),
+            customer_id: $("#customer_id").val(),
+            shipper_id: $("#shipper_id").val(),
+            status: "Pending",
+            discount: 0,
+            _token: $('meta[name="csrf-token"]').attr('content')
         },
-        error: function (result) {
-           error_msg();
-        }
-    });  
+        success: function (result) {
+            save_msg("The Invoice has been successfully generated  Ref:" + result.code);
+            save_billdetails(result.id);
+        },
+        error: function (result) { error_msg(); }
+    });
+}
+//Save bil Details 
+function save_billdetails(bill_id) {
+    $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+    });
+    $.ajax({
+        url: '/bills/save_billdetails',
+        type: 'POST',
+        data: {invoiceDetails:invoiceDetails,billid:bill_id},
+        
+        success: function (result) {
+            save_msg("The Invoice has been successfully generated ");
+            $("#tbl_invoiceDetails tbody").empty();
+            resetForm('frmadd');
+            $("#lblsubtotal").value ="0";
+            $("#lbltotal").value ="0";
+            $("#qty").value ="";
+            $("#remark").value ="";
+        },
+        error: function (result) { error_msg(); }
+    });
+    alert(data);
 }

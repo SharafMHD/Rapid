@@ -6,7 +6,9 @@ use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\CreatebillsRequest;
 use App\Http\Requests\UpdatebillsRequest;
 use App\Models\billdetails;
+use App\Models\orderdetails;
 use App\Models\bills;
+use App\Models\orders;
 use App\Models\customers;
 use App\Models\items;
 use App\Models\shippers;
@@ -79,9 +81,27 @@ class billsController extends AppBaseController
             $bill->discount = $request->discount;
             $bill->user_id = Auth::id();
             $bill->save();
+            ///save order
+
+            $order =new orders;
+            $order->bill_id =$bill->id;
+            $order->order_code = $request->Neworder['order_code'];
+            $order->order_date = $request->Neworder['order_date'];
+            $order->shipping_date = $request->Neworder['shipping_date'];
+            $order->delivery_date = $request->Neworder['delivery_date'];
+            $order->recipient = $request->Neworder['recipient'];
+            $order->recipient_phone = $request->Neworder['recipient_phone'];
+            $order->recipient_address = $request->Neworder['recipient_address'];
+            $order->pickup_location = $request->Neworder['pickup_location'];
+            $order->drop_location = $request->Neworder['drop_location'];
+            $order->status = $request->Neworder['status'];
+            $order->save();
+
             if ($bill->save()) {
                 return response()->json([
                     'id' => $bill->id,
+                    'order_id'=> $order->id
+                
                 ]);
             } else {
                 return response()->json([
@@ -113,6 +133,15 @@ class billsController extends AppBaseController
                         'qty' => $data['qty'],
                         'remark' => $data['remark']
                     ];
+
+                       $orderdetails[] = [
+                        'order_id' =>  $request->orderid,
+                        'item_id' => $data['item_id'],
+                        'unit_id' => $data['unit_id'],
+                        'qty' => $data['qty'],
+                        'status' => 'Pending'
+                    ];
+                    
                   
                 } catch (QueryException $ex) {
                    return response()->json([
@@ -120,6 +149,7 @@ class billsController extends AppBaseController
                 }
             }
             billdetails::insert($charges);
+            orderdetails::insert($orderdetails);
 
         }
 
@@ -158,17 +188,40 @@ class billsController extends AppBaseController
      */
     public function show($id)
     {
-        $bills = $this->billsRepository->findWithoutFail($id);
-
+        $bills =  bills::findorfail($id);
+        $bill_detaisl =  billdetails::all()->where('bill_id',$id);
+        $customers=customers::find($bills->customer_id);
+        $orders= orders::wherebill_id($id)->first();
         if (empty($bills)) {
             Flash::error('Bills not found');
 
             return redirect(route('bills.index'));
         }
-
-        return view('bills.show')->with('bills', $bills);
+ //return Response::json($orders);
+     return view('bills.show')->with('bills', $bills )->with('customers' , $customers)->with('bill_detaisl',$bill_detaisl)->with('orders',$orders);
     }
+  /**
+     * Display the specified bills.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function Print($id)
+    {
+        $bills =  bills::findorfail($id);
 
+        $bill_detaisl =  billdetails::all()->where('bill_id',$id);
+        $customers=customers::find($bills->customer_id);
+        $orders= orders::wherebill_id($id)->first();
+        if (empty($bills)) {
+            Flash::error('Bills not found');
+
+            return redirect(route('bills.index'));
+        }
+        //return Response::json($bill_detaisl);
+        return view('bills.invoice-print')->with('bills', $bills )->with('customers' , $customers)->with('bill_detaisl',$bill_detaisl)->with('orders',$orders);
+    }
     /**
      * Display the specified customer.
      *

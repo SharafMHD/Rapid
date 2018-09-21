@@ -92,4 +92,8 @@ class bills extends Model
     {
         return $this->belongsTo(\App\Models\customers::class, 'customer_id', 'id');
     }
+    public function billdetails()
+    {
+        return $this->HasMany(\App\Models\billdetails::class, 'bill_id', 'id');
+    }
 }

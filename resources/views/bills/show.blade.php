@@ -11,7 +11,6 @@
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
                     @include('bills.show_fields')
-                    <a href="{!! route('bills.index') !!}" class="btn btn-default">Back</a>
                 </div>
             </div>
         </div>

@@ -23,11 +23,11 @@ use App\Models\users;
  * @property string status
  * @property float discount
  */
-class billdetails extends Model
+class orderdetails extends Model
 {
     use SoftDeletes;
 
-    public $table = 'bill_details';
+    public $table = 'order_details';
     
 
     protected $dates = ['deleted_at'];
@@ -35,12 +35,10 @@ class billdetails extends Model
     protected $primaryKey = 'id';
 
     public $fillable = [
-        'bill_id',
+        'order_id',
         'unit_id',
         'item_id',
-        'unit_price',
-        'total_price',
-        'remark',
+        'status',
         'qty',
     ];
 
@@ -50,8 +48,6 @@ class billdetails extends Model
      * @var array
      */
     protected $casts = [
-        'total_price' => 'float',
-        'unit_price' => 'float',
         'qty' => 'float'
     ];
 
@@ -72,9 +68,9 @@ class billdetails extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function bills()
+    public function orders()
     {
-        return $this->belongsTo(\App\Models\bills::class, 'bill_id', 'id');
+        return $this->belongsTo(\App\Models\orders::class, 'order_id', 'id');
     }
     public function items()
     {

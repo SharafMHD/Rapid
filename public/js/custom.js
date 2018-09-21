@@ -4,6 +4,7 @@ var ControllerID = "";
 var FormID = "";
 var TblID = "";
 var invoiceDetails = [];
+var Order = [];
 var subtotal = 0;
 var total = 0;
 var user_id = 0;
@@ -495,6 +496,20 @@ function getitem() {
 }
 ///save bill 
 function save_bill() {
+    // fill order info 
+    var Neworder = {
+        order_code: 'Rpid-O-' + Math.floor((Math.random() * 10000000)),
+        order_date: $("#billdate").val(),
+        shipping_date: $("#shipping_date").val(),
+        delivery_date: $('#delivery_date').val(),
+        recipient: $('#recipient').val(),
+        recipient_phone: $('#recipient_phone').val(),
+        recipient_address: $('#recipient_address').val(),
+        pickup_location: $('#pickup_location').val(),
+        drop_location: $('#drop_location').val(),
+        status : "Pending"
+    };
+    Order.push(Neworder);
     $.ajaxSetup({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
@@ -511,24 +526,26 @@ function save_bill() {
             shipper_id: $("#shipper_id").val(),
             status: "Pending",
             discount: 0,
-            _token: $('meta[name="csrf-token"]').attr('content')
+            _token: $('meta[name="csrf-token"]').attr('content') ,
+            Neworder:Neworder
+
         },
         success: function (result) {
             save_msg("The Invoice has been successfully generated  Ref:" + result.code);
-            save_billdetails(result.id);
+            save_billdetails(result.id,result.order_id);
         },
         error: function (result) { error_msg(); }
     });
 }
 //Save bil Details 
-function save_billdetails(bill_id) {
+function save_billdetails(bill_id,order_id) {
     $.ajaxSetup({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
     });
     $.ajax({
         url: '/bills/save_billdetails',
         type: 'POST',
-        data: {invoiceDetails:invoiceDetails,billid:bill_id},
+        data: {invoiceDetails:invoiceDetails,billid:bill_id,orderid:order_id},
         
         success: function (result) {
             save_msg("The Invoice has been successfully generated ");

@@ -23,11 +23,11 @@ use App\Models\users;
  * @property string status
  * @property float discount
  */
-class billdetails extends Model
+class orders extends Model
 {
     use SoftDeletes;
 
-    public $table = 'bill_details';
+    public $table = 'orders';
     
 
     protected $dates = ['deleted_at'];
@@ -35,13 +35,18 @@ class billdetails extends Model
     protected $primaryKey = 'id';
 
     public $fillable = [
+        'order_code',
+        'order_date',
+        'shipping_date',
+        'delivery_date',
+        'recipient',
+        'recipient_phone',
+        'recipient_address',
+        'pickup_location',
+        'drop_location',
         'bill_id',
-        'unit_id',
-        'item_id',
-        'unit_price',
-        'total_price',
-        'remark',
-        'qty',
+        'status'
+
     ];
 
     /**
@@ -50,9 +55,9 @@ class billdetails extends Model
      * @var array
      */
     protected $casts = [
-        'total_price' => 'float',
-        'unit_price' => 'float',
-        'qty' => 'float'
+        'order_date' => 'date',
+        'order_code' => 'string',
+        'shipping_date' => 'date'
     ];
 
     /**
@@ -60,14 +65,19 @@ class billdetails extends Model
      *
      * @var array
      */
-    // public static $rules = [
-    //     'billdate' => 'required',
-    //     'code' => 'required',
-    //     'customer_id' => 'required',
-    //     'shipper_id' => 'required',
-    //     'user_id' => 'required',
-    //     'status' => 'required'
-    // ];
+    public static $rules = [
+        'order_code'=> 'required',
+        'order_date'=> 'required',
+        'shipping_date'=> 'required',
+        'delivery_date'=> 'required',
+        'recipient'=> 'required',
+        'recipient_phone'=> 'required',
+        'recipient_address'=> 'required',
+        'pickup_location'=> 'required',
+        'drop_location'=> 'required',
+        'bill_id'=> 'required',
+        'status'=> 'required'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -76,15 +86,5 @@ class billdetails extends Model
     {
         return $this->belongsTo(\App\Models\bills::class, 'bill_id', 'id');
     }
-    public function items()
-    {
-        return $this->belongsTo(\App\Models\items::class, 'item_id', 'id');
-    }
-    public function units()
-    {
-        return $this->belongsTo(\App\Models\units::class, 'unit_id', 'id');
-    }
-
-
 
 }

@@ -4,24 +4,24 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\customers;
-use App\Models\users;
 
 /**
- * Class bills
+ * Class orders
  * @package App\Models
- * @version September 14, 2018, 2:26 pm UTC
+ * @version September 22, 2018, 9:59 am UTC
  *
- * @property mt
- * @property \App\Models\shippers shippers
- * @property \App\Models\users users
- * @property date billdate
- * @property string code
- * @property relation customer_id
- * @property relation shipper_id
- * @property relation user_id
+ * @property \App\Models\bills bills
+ * @property string order_code
+ * @property date order_date
+ * @property date shipping_date
+ * @property date delivery_date
+ * @property string recipient
+ * @property string recipient_phone
+ * @property string recipient_address
+ * @property string pickup_location
+ * @property string drop_location
+ * @property Integer bill_id
  * @property string status
- * @property float discount
  */
 class orders extends Model
 {
@@ -46,7 +46,6 @@ class orders extends Model
         'drop_location',
         'bill_id',
         'status'
-
     ];
 
     /**
@@ -55,9 +54,16 @@ class orders extends Model
      * @var array
      */
     protected $casts = [
-        'order_date' => 'date',
         'order_code' => 'string',
-        'shipping_date' => 'date'
+        'order_date' => 'date',
+        'shipping_date' => 'date',
+        'delivery_date' => 'date',
+        'recipient' => 'string',
+        'recipient_phone' => 'string',
+        'recipient_address' => 'string',
+        'pickup_location' => 'string',
+        'drop_location' => 'string',
+        'status' => 'string'
     ];
 
     /**
@@ -66,25 +72,24 @@ class orders extends Model
      * @var array
      */
     public static $rules = [
-        'order_code'=> 'required',
-        'order_date'=> 'required',
-        'shipping_date'=> 'required',
-        'delivery_date'=> 'required',
-        'recipient'=> 'required',
-        'recipient_phone'=> 'required',
-        'recipient_address'=> 'required',
-        'pickup_location'=> 'required',
-        'drop_location'=> 'required',
-        'bill_id'=> 'required',
-        'status'=> 'required'
+        'order_code' => 'required',
+        'order_date' => 'required',
+        'shipping_date' => 'required',
+        'delivery_date' => 'required',
+        'recipient' => 'required',
+        'recipient_phone' => 'required',
+        'recipient_address' => 'required',
+        'pickup_location' => 'required',
+        'drop_location' => 'required',
+        'bill_id' => 'required',
+        'status' => 'required'
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
     public function bills()
     {
-        return $this->belongsTo(\App\Models\bills::class, 'bill_id', 'id');
+        return $this->hasOne(\App\Models\bills::class, 'id', 'bill_id');
     }
-
 }

@@ -19,6 +19,7 @@ class items_categoryController extends AppBaseController
     public function __construct(items_categoryRepository $itemsCategoryRepo)
     {
         $this->itemsCategoryRepository = $itemsCategoryRepo;
+        $this->middleware('auth');
     }
 
     /**

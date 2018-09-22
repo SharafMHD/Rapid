@@ -46,3 +46,5 @@ Route::get('/bills/getitem/{id}', 'billsController@getitem');
 Route::post('/bills/savebill', 'billsController@savebill');
 Route::post('/bills/save_billdetails', 'billsController@save_billdetails');
 Route::get('/bills/Print/{id}', 'billsController@Print');
+Route::get('/orders/Print/{id}', 'ordersController@Print');
+Route::resource('orders', 'ordersController');

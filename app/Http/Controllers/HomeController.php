@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-
+use App\Models\orders;
+use \App\Models\shippers;
+use \App\Models\customers;
 class HomeController extends Controller
 {
     /**
@@ -22,6 +24,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $Pendingorders = orders::where('status', 'Pending')->get();
+        $completedorders = orders::where('status', 'Delivered')->get();
+        $shippers =shippers::all()->count();
+        $customers =customers::all()->count();
+        $recentOrders = orders::orderBy('created_at', 'desc')->take(5)->get();
+        $recentcustomers = \App\Models\customers::orderBy('created_at', 'desc')->take(5)->get();
+        return view('home')->with('Pendingorders', $Pendingorders->count())->with('completedorders', $completedorders->count())->with('shippers', $shippers)->with('customers', $customers)->with('recentOrders', $recentOrders)->with('recentcustomers', $recentcustomers);
+        
     }
 }

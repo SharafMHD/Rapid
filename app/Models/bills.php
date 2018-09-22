@@ -96,4 +96,8 @@ class bills extends Model
     {
         return $this->HasMany(\App\Models\billdetails::class, 'bill_id', 'id');
     }
+    public function orders()
+    {
+        return $this->hasOne(\App\Models\orders::class, 'bill_id', 'id');
+    }
 }

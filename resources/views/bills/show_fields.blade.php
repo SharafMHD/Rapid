@@ -34,7 +34,7 @@
       <div class="col-sm-4 invoice-col">
         <b>Invoice #{!! $bills->code !!}</b><br>
         <br>
-        <b>Order ID:</b> #{!! $orders->order_code !!}<br>
+        <b>Order ID:</b> #{!! $bills->orders->order_code !!}<br>
         <b>Payment Due:</b> {!! $bills->bill_date !!}<br>
 
       </div>

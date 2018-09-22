@@ -29,6 +29,7 @@ class billsController extends AppBaseController
     public function __construct(billsRepository $billsRepo)
     {
         $this->billsRepository = $billsRepo;
+        $this->middleware('auth');
     }
 
     /**

@@ -440,7 +440,7 @@ function AddNewItem(data) {
         unit_id: data.unit_id,
         unit_name: data.units.name,
         item_id: data.id,
-        item_name: $('#item_id').text(),
+        item_name: $("#item_id option:selected").text(),
         unit_price: data.unit_price,
         total_price: parseFloat(data.unit_price) * parseFloat($('#qty').val()),
         remark: $('#remark').val(),

@@ -42,11 +42,11 @@
                     </td>     
       @endif
             <td width="8%">
-                {!! Form::open(['route' => ['orders.destroy', $orders->id], 'method' => 'delete']) !!}
+                {!! Form::open() !!}
                 <div class='btn-group'>
                     <a  target="_blank" href="/orders/Print/{!! $orders->id !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-print"></i></a>
                     {{-- <a href="{!! route('orders.edit', [$orders->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a> --}}
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    {{-- {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!} --}}
                 </div>
                 {!! Form::close() !!}
             </td>

@@ -320,11 +320,15 @@ class billsController extends AppBaseController
 
             return redirect(route('bills.index'));
         }
-
+        $order =orders::wherebill_id($id)->first();
+        $order->orderdetails()->delete();
+        $bills->orders()->delete();
+        $bills->billdetails()->delete();
         $this->billsRepository->delete($id);
 
         Flash::success('Bills deleted successfully.');
 
         return redirect(route('bills.index'));
+       
     }
 }
